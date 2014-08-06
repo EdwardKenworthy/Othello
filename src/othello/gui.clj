@@ -3,7 +3,8 @@
             [seesaw.graphics :refer [draw ellipse style rect]]
             [seesaw.color :refer [color]]
             [othello.core :refer :all]
-            [othello.strategies :refer :all]))
+            [othello.strategies :refer :all]
+            [othello.command-line :refer print-board]))
 
 ;
 ; GUI
@@ -16,7 +17,7 @@
 
 ;(def current-board (atom starting-position))
 
-(defn- print-board                                          ; debugging only
+#_(defn- print-board                                          ; debugging only
   "Print a board along with some statistics"
   [board]
   (newline)
@@ -90,7 +91,7 @@
         result)
         (recur the-board player-strategies next-player))))
 
-(defn board-changed
+#_(defn board-changed
       "called when current-board changes"
   [fr _ _ _ _]
   (repaint! (select fr [:#canvas])))
@@ -106,7 +107,7 @@
     (show! fr)))
 
 ; (defn -main [& args]
-;  (othello-gui starting-position))
+;  (othello-gui starting-position random-strategy random-strategy))
 
 ;(othello-gui starting-position random-strategy random-strategy)
 
