@@ -8,7 +8,7 @@
 ;;; Othello board and functions to operate on them.
 ;;;
 
-(def starting-position
+(def ^:constant starting-position
   "Othello board setup in the starting position."
   '[
    [:edge :edge  :edge  :edge  :edge  :edge  :edge  :edge  :edge  :edge]
@@ -60,10 +60,7 @@
   Note that it does not apply the rules of Othello.
   Will throw exceptions if it is outside the board and can mess-up the board."
   [board [x y] player]
-  ;  (assoc board y (assoc (board y) x player))
   (assoc-in board [y x] player))
-
-; (print-board (place-piece starting-position [5 5] :black))
 
 (defn get-piece
   "Returns the piece at the given co-ords in the given board"

@@ -4,7 +4,7 @@
             [seesaw.color :refer [color]]
             [othello.core :refer :all]
             [othello.strategies :refer :all]
-            [othello.command-line :refer print-board]))
+            [othello.command-line :refer [print-board]]))
 
 ;
 ; GUI
@@ -14,22 +14,6 @@
 (def ^:constant grey (color 127 127 127 255))
 
 (def ^:constant name-of {:black "Black" :white "White"})
-
-;(def current-board (atom starting-position))
-
-#_(defn- print-board                                          ; debugging only
-  "Print a board along with some statistics"
-  [board]
-  (newline)
-  (println "\t    1  2  3  4  5  6  7  8  "
-           (name-of :black) "=" (count-pieces board :black)
-           (name-of :white) "=" (count-pieces board :white)
-           " " (count-difference board :black))
-  (dotimes [row (count board)]
-    (print (* row 10) "\t")
-    (doseq [cell (board row)]
-      (print ({:black " b " :white " w " :edge " * "} cell " . ")))
-    (newline) (newline) (flush)))
 
 (defn- draw-board
   [c g board]
@@ -90,11 +74,6 @@
         (newline)(flush)
         result)
         (recur the-board player-strategies next-player))))
-
-#_(defn board-changed
-      "called when current-board changes"
-  [fr _ _ _ _]
-  (repaint! (select fr [:#canvas])))
 
 (defn othello-gui [board black-strategy white-strategy]
   "Creates the entire Othello GUI"

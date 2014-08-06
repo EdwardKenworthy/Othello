@@ -109,22 +109,6 @@
     val-mv-1
     val-mv-2))
 
-#_(declare minimax)
-
-#_(defn- best-move
-  "Returns the best move out of MOVES for the player
-  as a 2 element array [value move]"
-  [board moves player ply eval-fn]
-  (reduce bigger
-    (for [move moves] ; create a vector of 2 element vectors of value and move.
-      [(- (first (minimax (make-move board move player)
-                        (opponent player)
-                        (dec ply)
-                        eval-fn))) ; note that we deliberately do *not*
-                                   ; use the move returned by minimax
-                                   ; as that is the *opponent's* move.
-      move])))
-
 (defn- minimax
   "Find the best move for PLAYER, according to EVAL-FN,
   searching PLY levels deep and backing up values."
@@ -165,27 +149,6 @@
 ;; Minimax with alpha-beta pruning.
 ;;
 
-#_(declare alpha-beta)
-
-#_(defn- best-move-alpha-beta
-  "Returns the best move out of MOVES for the player
-  as a 2 element array [value move]"
-  [board moves player achievable cutoff ply eval-fn]
-  (loop  [mvs moves
-          current-achievable achievable
-          best-move (first moves)]
-    (if (empty? mvs)
-      [current-achievable best-move]
-      (let [move (first mvs)
-            value (- (first (alpha-beta (make-move board move player)
-                                        (opponent player) (- cutoff)
-                                        (- achievable) (dec ply) eval-fn)))]
-        (if (> value current-achievable)
-          (if (>= value cutoff)
-              [value move]
-              (recur (rest mvs) value move))
-          (recur (rest mvs) current-achievable best-move))))))
-
 (defn alpha-beta
   "Find the best move, for PLAYER, according to EVAL-FN,
   searching PLY levels deep and backing up values,
@@ -203,7 +166,6 @@
           ; Neither player nor opponent has a move: game over
           [(final-value board player) nil])
         ; player has at least one legal move, which is the best?
-;        (best-move-alpha-beta board moves player achievable cutoff ply eval-fn)
         (loop  [mvs moves current-achievable achievable best-move (first moves)]
           (if (empty? mvs)
             [current-achievable best-move]
@@ -220,7 +182,6 @@
         ))))
 
 ; (minimax starting-position :black 8 weighted-squares)
-;(time (trampoline (alpha-beta starting-position :black losing-value winning-value 8 weighted-squares)))
 
 (defn alpha-beta-searcher
   "Returns a strategy that searches to PLY and uses EVAL-FN."
